@@ -38,45 +38,21 @@ function requestHandler(req, res) {
             }
         })
     } else if (req.method === 'POST' && req.url === '/pets') {
-        //do something
-        console.log(res.data)
-        res.end(res.data)
-
-        // if (age === undefined || kind === undefined || name == undefined) {
-        //     console.error('Usage: node pets.js create AGE KIND NAME')
-        //     process.exitCode = 3;
-        // } else {
-        //     var updatedPets = [];
-        //     var petToAdd = {
-        //         'age': parseInt(age),
-        //         'kind': kind,
-        //         'name': name
-        //     }
-        //     fs.readFile('pets.json', 'utf-8', function (error, data) {
-        //         if (error) {
-        //             console.error(error)
-        //         } else {
-        //             updatedPets = JSON.parse(data);
-        //         }
-        //         updatedPets.push(petToAdd);
-        //         write(updatedPets);
-        //     })
-        // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        let body = '';
+        req.on('data',chunk=>{
+            body+= chunk.toString();
+            //convert buffer to stream
+        })
+        req.on('end',()=>{
+            console.log(body);
+            res.end('ok')
+        })
+        let jsonBodyObject = JSON.parse(body);
+        if(typeof(jsonBodyObject.age)!=='integer'){
+            res.statusCode = 400;
+            res.setHeader('Content-Type', 'text/plain');
+            res.end('Bad Request');
+        }
     }
     else {
         res.statusCode = 404;
