@@ -15,7 +15,7 @@ function requestHandler(req, res) {
     if (req.method === 'GET' && req.url === '/pets') {
         fs.readFile('pets.json', 'utf-8', function (error, data) {
             if (error) {
-                console.log(error);
+                console.error(error);
             } else {
                 res.setHeader('Content-Type', 'application/json');
                 res.end(data)
@@ -24,7 +24,7 @@ function requestHandler(req, res) {
     } else if (req.method === 'GET' && req.url === `/pets/${index}`) {
         fs.readFile('pets.json', 'utf-8', function (error, data) {
             if (error) {
-                console.log(error);
+                console.error(error);
             } else {
                 var jsonPetObj = JSON.parse(data);
                 if (jsonPetObj[index] === undefined) {
