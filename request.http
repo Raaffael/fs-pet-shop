@@ -9,3 +9,14 @@ Content-Type: application/json
     "kind":"cat",
     "name":"pablo"
 }
+
+###
+
+PATCH  http://localhost:3000/pets
+Content-Type: application/json
+
+{
+    "age":66,
+    "kind":"cat",
+    "name":"pablo"
+}
