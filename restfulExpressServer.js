@@ -30,7 +30,7 @@ app.patch('/pets', function (req, res, next) {
 })
 //Removes a pet from the database
 app.delete('pets/:petID', function (req, res, next) {
-    var petID = req.params.petID;
+    const petID = req.params.petID;
     deletePet(req, res, petID, next);
 })
 
@@ -40,7 +40,7 @@ app.delete('pets/:petID', function (req, res, next) {
 app.get('*', function (req, res, next) {
     next({ status: 404, message: 'Not Found' })
 })
-app.use(function (e, req, res,next) {
+app.use(function (e, req, res, next) {
     res.status(e.status).json({ error: e })
 })
 app.listen(PORT, function () {
@@ -62,19 +62,19 @@ async function getOnePet(req, res, petID, next) {
     try {
         const result = await client.query(`SELECT * FROM pets WHERE id = ${petID};`)
         console.log(result.rows.length);
-        if (result.rows.length > 0) {
-            res.send(result.rows);
-        } else {
+        if (result.rows.length = 0) {
             return next({ status: 404, message: 'Not Found' })
+
         }
+        res.send(result.rows);
     } catch (error) {
         next(error)
     }
 }
-async function postPet(req, res, petID, next){
+async function postPet(req, res, petID, next) {
     try {
         const petToAdd = req.body;
-        const values = [petToAdd.age,petToAdd.kind,petToAdd.name];
+        const values = [petToAdd.age, petToAdd.kind, petToAdd.name];
         const text = 'INSERT INTO pets (age,kind,name) VALUES($1,$2,$3) RETURNING *';
         const result = await client.query(text, values);
         console.log(result.rows)
@@ -83,23 +83,29 @@ async function postPet(req, res, petID, next){
         next(error);
     }
 }
-async function patchPet(req, res, next){
+async function patchPet(req, res, next) {
     //UPDATE owners SET age = 30 WHERE name = 'Jane';
     try {
         const petToEdit = req.body;
-        const values = [petToEdit.age,petToEdit.kind,petToEdit.name];
+        const values = [petToEdit.age, petToEdit.kind, petToEdit.name];
+        if (values[0] === undefined || values[0] === undefined || values[0] === undefined) {
+            return next({ status: 404, message: 'Not Found' });
+        }
         const text = 'UPDATE pets SET age=$1, kind=$2, name=$3 WHERE name=$3 RETURNING *';
-        console.log(text)
-        const result = await client.query(text,values);
+        const result = await client.query(text, values);
         console.log(result.rows)
         res.send(result.rows);
     } catch (error) {
         next(error);
     }
 }
-async function deletePet(req, res, petID, next){
+async function deletePet(req, res, petID, next) {
     //DELETE FROM owners WHERE name = 'Janet';
     try {
+        const text = 'DELETE FROM pets WHERE id = $1 RETURNING *';
+        const result = await client.query(text, [petID]);
+        console.log(result.rows)
+        res.send(result.rows);
     } catch (error) {
         next(error);
     }

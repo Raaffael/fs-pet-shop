@@ -20,3 +20,8 @@ Content-Type: application/json
     "kind":"cat",
     "name":"pablo"
 }
+
+###
+
+DELETE   http://localhost:3000/pets/6
+Content-Type: application/json
