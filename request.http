@@ -1,4 +1,11 @@
 
+###
+GET   http://localhost:3000/pets
+Content-Type: application/json
+
+###
+GET   http://localhost:3000/pets/7
+Content-Type: application/json
 
 ###
 POST  http://localhost:3000/pets
@@ -16,12 +23,12 @@ PATCH  http://localhost:3000/pets
 Content-Type: application/json
 
 {
-    "age":69,
-    "kind":"cat",
-    "name":"pablo"
+    "age":23,
+    "kind":"rainbow",
+    "name":"fido"
 }
 
 ###
 
-DELETE   http://localhost:3000/pets/6
+DELETE   http://localhost:3000/pets/7
 Content-Type: application/json

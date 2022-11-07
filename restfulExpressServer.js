@@ -16,7 +16,7 @@ app.get('/pets', function (req, res, next) {
 })
 //Gets one pet from database referenced by its id
 app.get('/pets/:petID', function (req, res, next) {
-    var petID = req.params.petID;
+    const petID = req.params.petID;
     getOnePet(req, res, petID, next);
 })
 //Adds a new pet to the database
@@ -60,11 +60,10 @@ async function getAllPets(req, res, next) {
 }
 async function getOnePet(req, res, petID, next) {
     try {
-        const result = await client.query(`SELECT * FROM pets WHERE id = ${petID};`)
+        const result = await client.query('SELECT * FROM pets WHERE id = $1;',[petID]);
         console.log(result.rows.length);
-        if (result.rows.length = 0) {
+        if (result.rows.length === 0) {
             return next({ status: 404, message: 'Not Found' })
-
         }
         res.send(result.rows);
     } catch (error) {
@@ -102,9 +101,8 @@ async function patchPet(req, res, next) {
 async function deletePet(req, res, petID, next) {
     //DELETE FROM owners WHERE name = 'Janet';
     try {
-        const text = 'DELETE FROM pets WHERE id = $1';
-        const result = await client.query(text, [petID]);
-        res.send(result.rows);
+        const result = await client.query('DELETE FROM pets WHERE id = $1;', [petID]);
+        res.send('DELETED');
     } catch (error) {
         next(error);
     }
