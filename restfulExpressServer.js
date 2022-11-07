@@ -29,7 +29,7 @@ app.patch('/pets', function (req, res, next) {
     patchPet(req, res, next);
 })
 //Removes a pet from the database
-app.delete('pets/:petID', function (req, res, next) {
+app.delete('/pets/:petID', function (req, res, next) {
     const petID = req.params.petID;
     deletePet(req, res, petID, next);
 })
@@ -102,9 +102,8 @@ async function patchPet(req, res, next) {
 async function deletePet(req, res, petID, next) {
     //DELETE FROM owners WHERE name = 'Janet';
     try {
-        const text = 'DELETE FROM pets WHERE id = $1 RETURNING *';
+        const text = 'DELETE FROM pets WHERE id = $1';
         const result = await client.query(text, [petID]);
-        console.log(result.rows)
         res.send(result.rows);
     } catch (error) {
         next(error);

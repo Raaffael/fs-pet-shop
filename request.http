@@ -16,7 +16,7 @@ PATCH  http://localhost:3000/pets
 Content-Type: application/json
 
 {
-    "age":66,
+    "age":69,
     "kind":"cat",
     "name":"pablo"
 }
