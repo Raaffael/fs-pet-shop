@@ -6,7 +6,7 @@ Now that you've built a Node HTTP server, today's assignment is to convert it to
 
 ## Getting started
 
-Change into the project directory.
+Change into the project directory. 
 
 ```shell
 cd path/to/project
